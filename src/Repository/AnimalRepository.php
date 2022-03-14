@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Animal;
+use App\Entity\Animal\Animal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
