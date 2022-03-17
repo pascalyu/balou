@@ -2,12 +2,53 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\CreatePictureGallerytAction;
 use App\Entity\Animal\Animal;
 use App\Entity\Traits\TimestampableEntity;
 use App\Repository\PictureGalleryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Vich\Uploadable
+ */
 #[ORM\Entity(repositoryClass: PictureGalleryRepository::class)]
+#[ApiResource(
+    iri: 'http://schema.org/MediaObject',
+    normalizationContext: ['groups' => ['picture_gallery:read']],
+    itemOperations: ['get'],
+    collectionOperations: [
+        'get',
+        'post' => [
+            'controller' => CreatePictureGallerytAction::class,
+            'deserialize' => false,
+            'validation_groups' => ['Default', 'picture_gallery_create'],
+            'openapi_context' => [
+                'requestBody' => [
+                    'content' => [
+                        'multipart/form-data' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'file' => [
+                                        'type' => 'string',
+                                        'format' => 'binary',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ]
+)]
+
 class PictureGallery
 {
     use TimestampableEntity;
@@ -17,37 +58,47 @@ class PictureGallery
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $file;
+    /**
+     * @Vich\UploadableField(mapping="media_object", fileNameProperty="filePath")
+     */
+    #[Assert\NotNull(groups: ['media_object_create'])]
+    private File $file;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $filePath;
+    private String $filePath;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $croppedFilePath;
+    private String $croppedFilePath;
+
+    #[ApiProperty(iri: 'http://schema.org/contentUrl')]
+    #[Groups(['picture_gallery:read'])]
+    public ?string $contentUrl = null;
 
     #[ORM\Column(type: 'boolean')]
-    private $isMain;
+    private bool $isMain = false;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private string $name;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'picturegalleries')]
-    private $animal;
+    private Animal $animal;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFile(): ?string
+    public function getFile(): ?File
     {
         return $this->file;
     }
 
-    public function setFile(?string $file): self
+    public function setFile(?File $file): self
     {
         $this->file = $file;
+        if ($file) {
+            $this->updatedAt = new \DateTime('now');
+        }
 
         return $this;
     }
@@ -72,6 +123,18 @@ class PictureGallery
     public function setCroppedFilePath(?string $croppedFilePath): self
     {
         $this->croppedFilePath = $croppedFilePath;
+
+        return $this;
+    }
+
+    public function getContentUrl(): ?string
+    {
+        return $this->contentUrl;
+    }
+
+    public function setContentUrl(?string $contentUrl): self
+    {
+        $this->contentUrl = $contentUrl;
 
         return $this;
     }

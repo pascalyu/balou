@@ -8,8 +8,11 @@ use App\Repository\AnimalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
+#[ApiResource]
 class Animal
 {
     use TimestampableEntity;
@@ -29,6 +32,7 @@ class Animal
     private $picturegalleries;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'animals')]
+    #[MaxDepth(1)]
     private $category;
 
     public function __construct()

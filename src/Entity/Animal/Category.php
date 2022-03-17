@@ -2,13 +2,16 @@
 
 namespace App\Entity\Animal;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\TimestampableEntity;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ApiResource()]
 class Category
 {
     use TimestampableEntity;
@@ -25,6 +28,7 @@ class Category
     private $description;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Animal::class)]
+    #[MaxDepth(1)]
     private $animals;
 
     public function __construct()
