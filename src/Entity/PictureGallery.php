@@ -10,6 +10,9 @@ use App\Entity\Traits\TimestampableEntity;
 use App\Repository\PictureGalleryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+
+
+
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -62,13 +65,13 @@ class PictureGallery
      * @Vich\UploadableField(mapping="media_object", fileNameProperty="filePath")
      */
     #[Assert\NotNull(groups: ['media_object_create'])]
-    private File $file;
+    private ?File $file;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private String $filePath;
+    private ?string $filePath = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private String $croppedFilePath;
+    private ?string $croppedFilePath;
 
     #[ApiProperty(iri: 'http://schema.org/contentUrl')]
     #[Groups(['picture_gallery:read'])]
@@ -78,7 +81,7 @@ class PictureGallery
     private bool $isMain = false;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $name;
+    private ?string $name;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'picturegalleries')]
     private Animal $animal;
@@ -99,7 +102,7 @@ class PictureGallery
         if ($file) {
             $this->updatedAt = new \DateTime('now');
         }
-
+        $this->setName($file->getBasename());
         return $this;
     }
 

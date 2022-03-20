@@ -25,15 +25,17 @@ class Animal
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $name;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
     #[ORM\OneToMany(mappedBy: 'animal', targetEntity: PictureGallery::class)]
     private $picturegalleries;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'animals')]
-    #[MaxDepth(1)]
     private $category;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $lifeExpectancy;
 
     public function __construct()
     {
@@ -114,5 +116,17 @@ class Animal
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getLifeExpectancy(): ?int
+    {
+        return $this->lifeExpectancy;
+    }
+
+    public function setLifeExpectancy(?int $lifeExpectancy): self
+    {
+        $this->lifeExpectancy = $lifeExpectancy;
+
+        return $this;
     }
 }

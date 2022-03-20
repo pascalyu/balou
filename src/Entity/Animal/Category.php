@@ -28,7 +28,6 @@ class Category
     private $description;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Animal::class)]
-    #[MaxDepth(1)]
     private $animals;
 
     public function __construct()
