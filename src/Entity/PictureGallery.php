@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PictureGalleryRepository::class)]
 #[ApiResource(
     iri: 'http://schema.org/MediaObject',
-    normalizationContext: ['groups' => ['picture_gallery:read']],
+    normalizationContext: ['groups' => ['picture_gallery:read', 'animal:read']],
     itemOperations: ['get'],
     collectionOperations: [
         'get',
@@ -74,7 +74,7 @@ class PictureGallery
     private ?string $croppedFilePath;
 
     #[ApiProperty(iri: 'http://schema.org/contentUrl')]
-    #[Groups(['picture_gallery:read'])]
+    #[Groups(['animal:read', 'picture_gallery:read'])]
     public ?string $contentUrl = null;
 
     #[ORM\Column(type: 'boolean')]

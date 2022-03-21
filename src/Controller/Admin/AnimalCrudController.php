@@ -22,7 +22,6 @@ class AnimalCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-
         yield TextField::new('name');
         yield TextEditorField::new('description');
         yield AssociationField::new('category');

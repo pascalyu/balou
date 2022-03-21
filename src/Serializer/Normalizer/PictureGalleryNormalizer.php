@@ -21,7 +21,7 @@ class PictureGalleryNormalizer implements NormalizerInterface, CacheableSupports
 
         $context[self::ALREADY_CALLED] = true;
 
-        $object->setContentUrl($this->storage->resolveUri($object, 'file'));
+        $object->setContentUrl("http://localhost:80" . $this->storage->resolveUri($object, 'file'));
 
         return $this->normalizer->normalize($object, $format, $context);
     }

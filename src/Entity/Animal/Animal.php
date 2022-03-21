@@ -2,6 +2,7 @@
 
 namespace App\Entity\Animal;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use App\Entity\PictureGallery;
 use App\Entity\Traits\TimestampableEntity;
 use App\Repository\AnimalRepository;
@@ -9,10 +10,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['animal:read']],
+    itemOperations: ['get'],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])]
 class Animal
 {
     use TimestampableEntity;
@@ -20,21 +27,26 @@ class Animal
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['animal:read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['animal:read'])]
     private $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['animal:read'])]
     private $description;
 
     #[ORM\OneToMany(mappedBy: 'animal', targetEntity: PictureGallery::class)]
     private $picturegalleries;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'animals')]
+    #[Groups(['animal:read'])]
     private $category;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['animal:read'])]
     private $lifeExpectancy;
 
     public function __construct()
@@ -87,6 +99,16 @@ class Animal
         }
 
         return $this;
+    }
+
+
+    #[Groups(['animal:read'])]
+    public function getFirstPicture(): ?PictureGallery
+    {
+        if (count($this->picturegalleries) > 0) {
+            return $this->picturegalleries->first();
+        }
+        return null;
     }
 
     public function removePicturegallery(PictureGallery $picturegallery): self
