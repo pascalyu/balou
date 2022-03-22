@@ -66,7 +66,10 @@ abstract class AbstractTest extends ApiTestCase
 
         return $content['hydra:member'];
     }
-
+    protected function getItem(ApiResponse $response): array
+    {
+        return $this->getData($response);
+    }
 
     protected function getAssertViolation(string $propertyPath, string $msg): callable
     {

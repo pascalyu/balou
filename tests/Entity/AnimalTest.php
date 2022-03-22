@@ -12,6 +12,7 @@ class AnimalTest extends AbstractTest
 
     public const URL = '/animals';
     public const CONTEXT = 'Animal';
+    private const mandatoryKeys = ['@id', 'name', 'description', 'category', 'lifeExpectancy', 'firstPicture', 'createdAt'];
 
     public function testExistGriffon()
     {
@@ -24,9 +25,17 @@ class AnimalTest extends AbstractTest
     {
         $response = self::createPublicClient()->request(Request::METHOD_GET, self::URL);
         $items = $this->getItems($response);
-        $mandatoryKeys = ['@id', 'name', 'description', 'category', 'lifeExpectancy', 'firstPicture'];
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertGreaterThan(0, count($items));
-        $this->assertArrayHasKeys($mandatoryKeys, $items[0]);
+        $this->assertArrayHasKeys(self::mandatoryKeys, $items[0]);
+    }
+
+    public function testGetAnimal()
+    {
+        $animalIri = $this->findIriBy(Animal::class, ['name' => 'Griffon']);
+        $response = self::createPublicClient()->request(Request::METHOD_GET, $animalIri);
+        $item = $this->getItem($response);
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertArrayHasKeys(self::mandatoryKeys, $item);
     }
 }
