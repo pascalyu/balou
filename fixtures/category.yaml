@@ -1,0 +1,9 @@
+App\Entity\Animal\Category:
+  category_chien:
+    name: "chien"
+    description: >
+      meilleur ami de l'hmme
+  category_chat:
+    name: "chat"
+    description: >
+     "mouai"

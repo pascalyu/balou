@@ -1,0 +1,25 @@
+App\Entity\Animal\Animal:
+  animal_griffon:
+    name: "griffon"
+    description: "Le Griffon Korthals est un chien de taille moyenne, robuste, plein de vigueur, rustique et dont la longueur est nettement supérieure à la hauteur. Il est reconnaissable à sa moustache, sa barbe et ses sourcils bien fournis, qui lui confèrent un air déterminé et assuré"
+    category: '@category_chien'
+    lifeExpectancy: 10
+  animal_rotweiller:
+    name: "Rotweiller"
+    description: 'chien'
+    category: '@category_chien'
+    lifeExpectancy: 10
+  animal_yorkshirk:
+    name: "Yorkshirk"
+    description: "yorsk"
+    category: '@category_chien'
+    lifeExpectancy: 10
+  animal_bulldog:
+    name: "Bulldog"
+    category: '@category_chien'
+    lifeExpectancy: 10
+  animal_golden_retreiver:
+    name: "Golden retreiver"
+    description: "golden"
+    category: '@category_chien'
+    lifeExpectancy: 10

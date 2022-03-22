@@ -65,7 +65,7 @@ class PictureGallery
      * @Vich\UploadableField(mapping="media_object", fileNameProperty="filePath")
      */
     #[Assert\NotNull(groups: ['media_object_create'])]
-    private ?File $file;
+    private ?File $file = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $filePath = null;
