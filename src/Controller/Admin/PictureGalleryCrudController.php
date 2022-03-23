@@ -16,7 +16,6 @@ class PictureGalleryCrudController extends AbstractCrudController
         return PictureGallery::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         yield ImageField::new('filePath', 'image')
