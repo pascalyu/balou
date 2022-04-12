@@ -8,12 +8,17 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource()]
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false, hardDelete: true)]
 class Category
 {
+    use SoftDeleteableEntity;
     use TimestampableEntity;
 
     #[ORM\Id]
@@ -27,7 +32,7 @@ class Category
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Animal::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Animal::class, cascade: ["persist"])]
     private $animals;
 
     public function __construct()
@@ -85,7 +90,6 @@ class Category
     public function removeAnimal(Animal $animal): self
     {
         if ($this->animals->removeElement($animal)) {
-            // set the owning side to null (unless already changed)
             if ($animal->getCategory() === $this) {
                 $animal->setCategory(null);
             }
@@ -94,8 +98,21 @@ class Category
         return $this;
     }
 
+    public function removeAnimals()
+    {
+        foreach ($this->getAnimals() as $animal) {
+            $this->removeAnimal($animal);
+        }
+    }
+
+
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function setIsDeleted(bool $isdeleted)
+    {
+        $this->setDeletedAt(null);
     }
 }

@@ -9,13 +9,12 @@ use App\Entity\Animal\Animal;
 use App\Entity\Traits\TimestampableEntity;
 use App\Repository\PictureGalleryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\HttpFoundation\File\File;
-
-
-
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @Vich\Uploadable
@@ -51,11 +50,12 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
     ]
 )]
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false, hardDelete: true)]
 
 class PictureGallery
 {
     use TimestampableEntity;
-
+    use SoftDeleteableEntity;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Security;
 
 use App\Repository\AdministratorRepository;
 use Doctrine\ORM\Mapping as ORM;

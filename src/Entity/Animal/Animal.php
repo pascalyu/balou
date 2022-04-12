@@ -11,8 +11,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 #[ApiResource(
@@ -20,8 +23,10 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
     itemOperations: ['get'],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])]
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false, hardDelete: true)]
 class Animal
 {
+    use SoftDeleteableEntity;
     use TimestampableEntity;
 
     #[ORM\Id]
@@ -48,6 +53,9 @@ class Animal
     #[ORM\Column(type: 'integer', nullable: true)]
     #[Groups(['animal:read'])]
     private $lifeExpectancy;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $videoLink;
 
     public function __construct()
     {
@@ -148,6 +156,18 @@ class Animal
     public function setLifeExpectancy(?int $lifeExpectancy): self
     {
         $this->lifeExpectancy = $lifeExpectancy;
+
+        return $this;
+    }
+
+    public function getVideoLink(): ?string
+    {
+        return $this->videoLink;
+    }
+
+    public function setVideoLink(?string $videoLink): self
+    {
+        $this->videoLink = $videoLink;
 
         return $this;
     }

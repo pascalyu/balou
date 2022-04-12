@@ -3,13 +3,14 @@
 namespace App\Controller\Admin;
 
 use App\Entity\PictureGallery;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class PictureGalleryCrudController extends AbstractCrudController
+class PictureGalleryCrudController extends  CustomAbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
@@ -26,5 +27,6 @@ class PictureGalleryCrudController extends AbstractCrudController
             ->setFormType(VichImageType::class);
 
         yield AssociationField::new('animal');
+        yield from $this->yieldDefaultField();
     }
 }
