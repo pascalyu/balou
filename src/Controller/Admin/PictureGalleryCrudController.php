@@ -10,7 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class PictureGalleryCrudController extends  CustomAbstractCrudController
+class PictureGalleryCrudController extends CustomAbstractCrudController
 {
     public static function getEntityFqcn(): string
     {

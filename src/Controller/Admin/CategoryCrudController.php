@@ -28,6 +28,4 @@ class CategoryCrudController extends CustomAbstractCrudController
 
         yield   BooleanField::new('isDeleted');
     }
-
-   
 }

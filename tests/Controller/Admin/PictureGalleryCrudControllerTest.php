@@ -26,7 +26,7 @@ class PictureGalleryCrudControllerTest extends AbstractAdminTest
         $client->submit(
             $form,
             [
-                'PictureGallery[animal]' => 2,
+                'PictureGallery[animal]' => "2",
                 'PictureGallery[file][file]' => $uploadedFile,
                 'PictureGallery[_token]' => $token
             ]

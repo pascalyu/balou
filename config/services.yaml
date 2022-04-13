@@ -25,7 +25,7 @@ services:
     
 
     App\EventSubscriber\CategorySubscriber:
-        tags: [ { name: doctrine.event_subscriber } ]
+        tags: [ { name: doctrine.event_subscriber_interface } ]
   
 
     # add more service definitions when explicit configuration is needed

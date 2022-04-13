@@ -22,7 +22,7 @@ final class CreatePictureGallerytAction extends AbstractController
 
         $pictureGallery = new PictureGallery();
         $pictureGallery->setFile($uploadedFile);
-        
+
         return $pictureGallery;
     }
 }

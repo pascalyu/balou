@@ -16,7 +16,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['animal:read']],

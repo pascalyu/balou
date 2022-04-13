@@ -23,7 +23,7 @@ class AnimalCrudControllerTest extends AbstractAdminTest
                 'Animal[name]' => $animalData['name'],
                 'Animal[lifeExpectancy]' => $animalData['lifeExpectancy'],
                 'Animal[description]' => 'test description',
-                'Animal[category]' => 1,
+                'Animal[category]' => "1",
                 'Animal[_token]' => $token
             ]
         );

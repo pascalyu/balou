@@ -56,4 +56,15 @@ else
 	$(PHPUNITFAILURE)
 endif
 
+## Load fixtures
+.PHONY: database-fixtures
+database-fixtures:
+	$(PHP) bin/console hautelook:fixtures:load --no-interaction --env=dev
 
+
+## Load database test
+.PHONY: database-test
+database-test:
+	$(PHP) bin/console doctrine:database:drop --force --if-exists --env=test
+	$(PHP) bin/console doctrine:database:create --env=test
+	$(PHP) bin/console doctrine:schema:update --force --env=test

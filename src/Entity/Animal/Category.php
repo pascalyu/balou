@@ -12,7 +12,6 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource()]
 #[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false, hardDelete: true)]

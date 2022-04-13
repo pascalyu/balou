@@ -9,10 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Doctrine\Common\EventSubscriber;
 
-class CategorySubscriber implements EventSubscriber
+class CategorySubscriber implements EventSubscriberInterface
 {
     use Supports;
     private $em;
@@ -21,7 +20,7 @@ class CategorySubscriber implements EventSubscriber
     {
         $this->em = $em;
     }
-    public  function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SoftDeleteableListener::PRE_SOFT_DELETE,
