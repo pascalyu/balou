@@ -4,11 +4,11 @@ namespace App\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
-use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
 use Symfony\Component\HttpFoundation\Response;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Response as ApiResponse;
-
+use App\Entity\Animal\Animal;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractTest extends ApiTestCase
 {
@@ -111,5 +111,23 @@ abstract class AbstractTest extends ApiTestCase
             }
             $date = $itemDate;
         }
+    }
+
+    protected function assertGetEntities($url, $mandatoryKeys): void
+    {
+        $response = self::createPublicClient()->request(Request::METHOD_GET, $url);
+        $items = $this->getItems($response);
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertGreaterThan(0, count($items));
+        $this->assertArrayHasKeys($mandatoryKeys, $items[0]);
+    }
+
+    protected function assertGetEntity($className, $fixtureName, $mandatoryKeys)
+    {
+        $animalIri = $this->findIriBy($className, ['name' => $fixtureName]);
+        $response = self::createPublicClient()->request(Request::METHOD_GET, $animalIri);
+        $item = $this->getItem($response);
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertArrayHasKeys($mandatoryKeys, $item);
     }
 }

@@ -23,19 +23,11 @@ class AnimalTest extends AbstractTest
 
     public function testGetAnimals()
     {
-        $response = self::createPublicClient()->request(Request::METHOD_GET, self::URL);
-        $items = $this->getItems($response);
-        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertGreaterThan(0, count($items));
-        $this->assertArrayHasKeys(self::mandatoryKeys, $items[0]);
+        $this->assertGetEntities(self::URL, self::mandatoryKeys);
     }
 
     public function testGetAnimal()
     {
-        $animalIri = $this->findIriBy(Animal::class, ['name' => 'Griffon']);
-        $response = self::createPublicClient()->request(Request::METHOD_GET, $animalIri);
-        $item = $this->getItem($response);
-        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertArrayHasKeys(self::mandatoryKeys, $item);
+        $this->assertGetEntity(Animal::class, 'Griffon', self::mandatoryKeys);
     }
 }

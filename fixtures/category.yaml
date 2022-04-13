@@ -7,3 +7,7 @@ App\Entity\Animal\Category:
     name: "chat"
     description: >
      "mouai"
+  category_test:
+    name: "test"
+    description: >
+     "test"
