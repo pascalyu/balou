@@ -1,0 +1,7 @@
+App\Entity\Security\Administrator:
+  admin:
+    email: "test2@yopmail.com"
+    plainPassword: "@category_chien"
+  admin2:
+    email: "test@yopmail.com"
+    plainPassword: "@category_chien"

@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Security\Administrator;
 use App\Entity\Security\User;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -28,7 +29,7 @@ class EncodePassword implements EventSubscriber
     {
         $entity = $args->getEntity();
 
-        if (!$entity instanceof User) {
+        if (!($entity instanceof User || $entity instanceof Administrator)) {
             return;
         }
 
@@ -36,7 +37,7 @@ class EncodePassword implements EventSubscriber
     }
 
 
-    private function hashPassword(User $entity): void
+    private function hashPassword($entity): void
     {
         if (!$entity->getPlainPassword()) {
             return;
