@@ -48,7 +48,8 @@ security:
                 path: app_logout
 
     access_control:
+        - { path: "^/admin$", roles: "ROLE_ADMIN" }
         - { path: "^/admin/login/$", roles: "IS_AUTHENTICATED_ANONYMOUSLY" }
-        - { path: "^/admin/$", roles: "ROLE_ADMIN" }
+        
     role_hierarchy:
-        ROLE_PRO: ["ROLE_USER"]
+        ROLE_ADMIN: ["ROLE_USER"]
