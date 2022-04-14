@@ -1,7 +1,7 @@
 App\Entity\Security\Administrator:
-  admin:
-    email: "test2@yopmail.com"
-    plainPassword: "@category_chien"
-  admin2:
-    email: "test@yopmail.com"
-    plainPassword: "@category_chien"
+  admin_1:
+    email: "admin_test1@yopmail.com"
+    plainPassword: "admin_test1@yopmail.com"
+  admin_2:
+    email: "admin_test2yopmail.com"
+    plainPassword: "admin_test2yopmail.com"

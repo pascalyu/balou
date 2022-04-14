@@ -32,7 +32,7 @@ class EncodePassword implements EventSubscriber
         if (!($entity instanceof User || $entity instanceof Administrator)) {
             return;
         }
-        
+
         $this->hashPassword($entity);
     }
 
