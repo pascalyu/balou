@@ -1,0 +1,7 @@
+App\Entity\Security\User:
+  user_1:
+    email: "user_test1@yopmail.com"
+    plainPassword: "user_test1@yopmail.com"
+  user_2:
+    email: "user_test2yopmail.com"
+    plainPassword: "user_test2yopmail.com"
