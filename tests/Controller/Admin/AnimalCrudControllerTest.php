@@ -10,7 +10,7 @@ class AnimalCrudControllerTest extends AbstractAdminTest
 {
     public function testCreateAnimal()
     {
-        $client = static::createClient();
+        $client = $this->createConnectedClient(static::createClient());
         $entityName = "Animal";
         $crawler =  $this->getCreateEntityCrawler($entityName, $client);
         $form = $crawler->selectButton('Create')->form();

@@ -11,7 +11,7 @@ class PictureGalleryCrudControllerTest extends AbstractAdminTest
 {
     public function testCreatePicture()
     {
-        $client = static::createClient();
+        $client = $this->createConnectedClient(static::createClient());
         $entityName = "PictureGallery";
         $crawler =  $this->getCreateEntityCrawler($entityName, $client);
         $form = $crawler->selectButton('Create')->form();
