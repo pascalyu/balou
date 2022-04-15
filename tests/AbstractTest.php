@@ -14,6 +14,10 @@ abstract class AbstractTest extends ApiTestCase
 {
     use ReloadDatabaseTrait;
 
+    public const USER_EMAIL = "user_test1@yopmail.com";
+    public const USER_PASSWORD = "user_test1@yopmail.com";
+
+
     public function setUp(): void
     {
         self::bootKernel();
