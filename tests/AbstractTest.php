@@ -17,10 +17,17 @@ abstract class AbstractTest extends ApiTestCase
     public const USER_EMAIL = "user_test1@yopmail.com";
     public const USER_PASSWORD = "user_test1@yopmail.com";
 
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $entityManager;
 
     public function setUp(): void
     {
         self::bootKernel();
+        $this->entityManager = self::getContainer()
+            ->get('doctrine')
+            ->getManager();
     }
 
     protected function createPublicClient(): Client
