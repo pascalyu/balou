@@ -14,6 +14,7 @@ abstract class AbstractTest extends ApiTestCase
 {
     use ReloadDatabaseTrait;
 
+    public const API = "/api";
     public const USER_EMAIL = "user_test1@yopmail.com";
     public const USER_PASSWORD = "user_test1@yopmail.com";
 
@@ -34,6 +35,31 @@ abstract class AbstractTest extends ApiTestCase
     {
         return static::createClient();
     }
+
+    protected function createPrivateClient(?string $contentType = null): Client
+    {
+        $token = $this->getToken();
+        $headers['authorization'] = 'Bearer ' . $token;
+        if ($contentType) {
+            $headers['content-type'] = $contentType;
+        }
+        return static::createClient([], ['headers' => $headers]);
+    }
+
+    private function getToken(): string
+    {
+        $response = static::createClient()->request('POST', "/api/authentication_token", ['json' => [
+            "email" => self::USER_EMAIL,
+            "password" => self::USER_PASSWORD,
+        ]]);
+
+        $this->assertResponseIsSuccessful();
+        $data = json_decode($response->getContent(), true);
+        $this->token = $data['token'];
+
+        return $data['token'];
+    }
+
 
     protected function assertCollection(string $context, string $iri): void
     {
@@ -96,8 +122,11 @@ abstract class AbstractTest extends ApiTestCase
         $this->assertJsonContains(["violations" => [$violation]]);
     }
 
-    protected function getData(ApiResponse $response): array
+    protected function getData(ApiResponse $response): ?array
     {
+        if ($response->getContent() === null) {
+            return null;
+        }
         return json_decode($response->getContent(), true);
     }
 

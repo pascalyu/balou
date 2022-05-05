@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserTest extends AbstractTest
 {
-    public const URL = '/users';
+    public const URL = self::API .  '/users';
     public const CONTEXT = 'user';
 
     public function testPostCreateUser()
@@ -31,12 +31,27 @@ class UserTest extends AbstractTest
         $this->assertEquals($email, $responseData['email']);
     }
 
+    public function testMeWithToken()
+    {
+        $client = self::createPrivateClient();
+        $response = $client->request(Request::METHOD_GET, self::API . "/me");
+        $this->assertNotTrue($this->getData($response) === null);
+    }
+
+    public function testMeNoToken()
+    {
+        $client = self::createPublicClient();
+        $response = $client->request(Request::METHOD_GET, self::API . "/me");
+        $this->assertTrue($this->getData($response) === null);
+    }
+
+
     /**
      * @@dataProvider providerLoginCall
      */
     public function testLoginCall(array $jsonData, int $responseExpectation)
     {
-        static::createClient()->request('POST', '/authentication_token', ['json' => $jsonData]);
+        static::createClient()->request('POST', self::API . '/authentication_token', ['json' => $jsonData]);
         $this->assertResponseStatusCodeSame($responseExpectation);
     }
 

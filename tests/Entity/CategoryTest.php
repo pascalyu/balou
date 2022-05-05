@@ -8,7 +8,7 @@ use App\Tests\AbstractTest;
 class CategoryTest extends AbstractTest
 {
 
-    public const URL = '/categories';
+    public const URL =self::API .  '/categories';
     public const CONTEXT = 'Category';
     private const mandatoryKeys = ['@id', 'name', 'description'];
 

@@ -20,13 +20,22 @@ services:
             - "../src/Entity/"
             - "../src/Kernel.php"
 
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
     App\EventSubscriber\EncodePassword:
         tags: [{ name: doctrine.event_subscriber }]
     
 
     App\EventSubscriber\CategorySubscriber:
         tags: [ { name: doctrine.event_subscriber_interface } ]
-  
+    
+    App\OpenApi\JwtDecorator:
+        decorates: 'api_platform.openapi.factory'
+        arguments: ['@.inner'] 
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

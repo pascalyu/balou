@@ -15,7 +15,6 @@ final class CreatePictureGallerytAction extends AbstractController
         new File();
         $uploadedFile = $request->files->get('file');
 
-
         if (!$uploadedFile) {
             throw new BadRequestHttpException('"file" is required');
         }
