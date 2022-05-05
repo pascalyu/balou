@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AnimalTest extends AbstractTest
 {
 
-    public const URL = '/animals';
+    public const URL = self::API . '/animals';
     public const CONTEXT = 'Animal';
     private const mandatoryKeys = ['@id', 'name', 'description', 'category', 'lifeExpectancy', 'firstPicture', 'createdAt'];
 

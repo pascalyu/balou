@@ -24,32 +24,36 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            pattern: ^/authentication_token
-            lazy: true
-            provider: app_user_provider
+            pattern: /api
             stateless: true
+            provider: app_user_provider
             json_login:
-                check_path: authentication_token
+                check_path: /api/authentication_token
                 username_path: email
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            jwt: ~
+            
         admin:
-            pattern: ^/admin
+            pattern: /admin
             provider: app_admin_provider
             entry_point: form_login
             form_login:
                 check_path: app_login
                 login_path: app_login
-                default_target_path: /
+                default_target_path: /admin
                 use_referer: true
             custom_authenticator: App\Security\AdminLoginAuthenticator
             logout:
                 path: app_logout
 
     access_control:
+        - { path: ~/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: "^/admin$", roles: "ROLE_ADMIN" }
         - { path: "^/admin/login/$", roles: "IS_AUTHENTICATED_ANONYMOUSLY" }
+        - { path: ~/api/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
         
     role_hierarchy:
         ROLE_ADMIN: ["ROLE_USER"]
