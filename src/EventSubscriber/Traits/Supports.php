@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 trait Supports
 {
-    public function supports($entity, $class)
+    public function supports($entity, $class): bool
     {
         return $entity instanceof $class;
     }

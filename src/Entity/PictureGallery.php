@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\CreatePictureGallerytAction;
+use App\Controller\Action\CreatePictureGallerytAction;
 use App\Entity\Animal\Animal;
 use App\Entity\Traits\TimestampableEntity;
 use App\Repository\PictureGalleryRepository;

@@ -3,8 +3,11 @@
 namespace App\Entity\Security;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Payment;
 use App\Entity\Traits\TimestampableEntity;
 use App\Repository\AdministratorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -25,6 +28,12 @@ class AbstractUser implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     private $plainPassword;
+
+
+    public function __construct()
+    {
+        $this->payments = new ArrayCollection();
+    }
 
     public function getEmail(): ?string
     {

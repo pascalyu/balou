@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Action;
 
 use App\Entity\PictureGallery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
