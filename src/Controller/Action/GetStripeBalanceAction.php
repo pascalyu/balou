@@ -14,6 +14,5 @@ final class GetStripeBalanceAction extends AbstractController
     public function __invoke(StripeManager $stripeManagement)
     {
         $a= $stripeManagement->getBalance();
-        dump($a);
     }
 }
