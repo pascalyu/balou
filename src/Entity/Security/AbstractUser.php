@@ -30,10 +30,7 @@ class AbstractUser implements UserInterface, PasswordAuthenticatedUserInterface
     private $plainPassword;
 
 
-    public function __construct()
-    {
-        $this->payments = new ArrayCollection();
-    }
+   
 
     public function getEmail(): ?string
     {

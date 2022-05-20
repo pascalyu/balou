@@ -24,7 +24,6 @@ abstract class AbstractAdminTest extends WebTestCase
 
     protected function createConnectedClient($client)
     {
-
         $userRepository = static::getContainer()->get(AdministratorRepository::class);
         $testUser = $userRepository->findOneBy(['email' => self::EMAIL_ADMIN]);
         $client->loginUser($testUser, self::ADMIN);
