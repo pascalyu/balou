@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
     collectionOperations: [
         "post" =>
         [
-            "security" => "is_granted('ROLE_USER')"
         ]
     ]
 )]
