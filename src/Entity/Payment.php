@@ -11,9 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 #[ApiResource(
     collectionOperations: [
-        "post" =>
-        [
-        ]
+        "post"
     ]
 )]
 class Payment
@@ -37,6 +35,8 @@ class Payment
     public const  TRANSITION_DECLINE_PAYMENT = "decline_payment";
     public const  TRANSITION_CANCEL_ORDER = "cancel_order";
     public const  TRANSITION_REFUND_PAYMENT = "refund_payment";
+
+    public const  DONATION_TYPE = "DONATION";
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

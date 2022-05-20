@@ -7,6 +7,7 @@ use App\Controller\User\OwnUserInformation;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Payment;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -44,10 +45,13 @@ class User extends AbstractUser
         return $this->id;
     }
 
-
     #[ORM\OneToMany(mappedBy: 'payedBy', targetEntity: Payment::class)]
     private $payments;
 
+    public function __construct()
+    {
+        $this->payments = new ArrayCollection();
+    }
     /**
      * @return Collection<int, Payment>
      */

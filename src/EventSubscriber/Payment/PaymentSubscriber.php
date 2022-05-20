@@ -29,8 +29,7 @@ class PaymentSubscriber implements EventSubscriberInterface
     {
         return [
             KernelEvents::VIEW => [
-                ['onCreatePayment', EventPriorities::PRE_WRITE],
-                ['changeHeaderLocation', EventPriorities::POST_SERIALIZE],
+                ['onCreatePayment', EventPriorities::PRE_WRITE]
             ]
         ];
     }
@@ -41,13 +40,9 @@ class PaymentSubscriber implements EventSubscriberInterface
         if (!$this->supports($payment, Payment::class)) {
             return;
         }
-
         /** @var Payment $payment */
         $payment->setPayedBy($this->security->getUser());
+        $payment->setType(Payment::DONATION_TYPE);
         $payment->setLocationUrl($this->stripeManager->createCheckoutSession()->url);
-    }
-
-    public function changeHeaderLocation(ViewEvent $event)
-    {
     }
 }

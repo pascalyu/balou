@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Animal\Animal;
 use App\Entity\Animal\Category;
+use App\Entity\Payment;
 use App\Entity\PictureGallery;
 use App\Entity\Security\Administrator;
 use App\Entity\Security\User;
@@ -36,5 +37,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('PictureGallery', 'fas fa-list', PictureGallery::class);
         yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
         yield MenuItem::linkToCrud('Admin', 'fas fa-list', Administrator::class);
+        yield MenuItem::linkToCrud('Payment', 'fas fa-list', Payment::class);
+
     }
 }
