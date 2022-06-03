@@ -13,7 +13,7 @@ class PaymentTest extends AbstractTest
     public const URL = self::API .  '/payments';
     public const CONTEXT = 'Payment';
 
-    public function testPostPayment()
+    public function testCreatePaymentDonation()
     {
         $client = self::createClient();
         $data = [];
