@@ -39,6 +39,7 @@ PHPUNITFAILURE= $(PHP) vendor/bin/phpunit --stop-on-failure
 fix:
 	tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src
 
+## To test one file or one method: "make test filter=[fileName || methodName]". [fileName] without .php
 .PHONY: test
 test:
 ifdef filter
