@@ -170,4 +170,5 @@ abstract class AbstractTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertArrayHasKeys($mandatoryKeys, $item);
     }
+  
 }

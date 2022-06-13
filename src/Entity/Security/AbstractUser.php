@@ -11,14 +11,29 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksPassword;
+
 
 #[ORM\MappedSuperclass]
-
+#[ApiResource()]
 class AbstractUser implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableEntity;
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private $id;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\Email(groups: ['create_user'])]
+    #[Assert\NotBlank(groups: ['create_user'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -27,10 +42,19 @@ class AbstractUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
+
+    #[Assert\NotBlank(groups: ['create_user'])]
+    /**
+     * @RollerworksPassword\PasswordRequirements(
+     *     groups={"create_user"},
+     *     minLength=6, tooShortMessage="mot de passe trop court",
+     *     requireLetters=true, missingLettersMessage="il faut des lettres",
+     *     requireCaseDiff=true, requireCaseDiffMessage="il faut un majuscule",
+     *     requireSpecialCharacter=true, missingSpecialCharacterMessage="il faut caractère spéciale"
+     * )
+     * 
+     * */
     private $plainPassword;
-
-
-   
 
     public function getEmail(): ?string
     {

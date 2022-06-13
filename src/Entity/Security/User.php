@@ -22,7 +22,9 @@ use Doctrine\Common\Collections\Collection;
 
     ],
     collectionOperations: [
-        "post",
+        "post" => [
+            'validation_groups' => ['create_user']
+        ],
         "get_me" =>
         [
             "path" => "/me",
@@ -35,16 +37,7 @@ use Doctrine\Common\Collections\Collection;
 
 class User extends AbstractUser
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
+    
     #[ORM\OneToMany(mappedBy: 'payedBy', targetEntity: Payment::class)]
     private $payments;
 

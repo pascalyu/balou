@@ -13,18 +13,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ApiResource()]
 class Administrator extends AbstractUser
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+
 
     public function __construct()
     {
         $this->setRoles(['ROLE_ADMIN']);
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+  
 }

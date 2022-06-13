@@ -15,7 +15,7 @@ class UserTest extends AbstractTest
     public function testPostCreateUser()
     {
         $client = self::createClient();
-        $email = "test2@yopamil.com";
+        $email = "Test2@yopamil.com";
         $data = [
             "email" => $email,
             "plainPassword" => $email
@@ -30,6 +30,31 @@ class UserTest extends AbstractTest
         $this->assertEquals($email, $user->getEmail());
         $this->assertEquals($email, $responseData['email']);
     }
+
+    public function testPostCreateUserEmptyMail()
+    {
+        $client = self::createClient();
+        $password = "Test2@yopamil.com";
+        $data = [
+            "email" => "",
+            "plainPassword" => $password
+        ];
+        $client->request(Request::METHOD_POST, self::URL, ['json' => $data]);
+        $this->assertViolation("email", "This value should not be blank.");
+    }
+
+    public function testPostCreateUserWrongMail()
+    {
+        $client = self::createClient();
+        $password = "Test2@yopamil.com";
+        $data = [
+            "email" => "qsdqsd",
+            "plainPassword" => $password
+        ];
+        $client->request(Request::METHOD_POST, self::URL, ['json' => $data]);
+        $this->assertViolation("email", "This value is not a valid email address.");
+    }
+
 
     public function testMeWithToken()
     {
