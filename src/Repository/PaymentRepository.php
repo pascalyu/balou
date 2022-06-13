@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Payment;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -45,22 +46,21 @@ class PaymentRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Payment[] Returns an array of Payment objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Payment[] Returns an array of Payment objects
+     */
+    public function findExpiredPaymentSince(DateTime $datetime)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('p.status = :status ')
+            ->andWhere('p.stripeSessionId is NULL')
+            ->andWhere('p.updatedAt <= :datetime')
+            ->setParameter('status', Payment::STATUS_CREATED)
+            ->setParameter('datetime', $datetime)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Payment

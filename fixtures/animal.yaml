@@ -23,4 +23,8 @@ App\Entity\Animal\Animal:
     description: "golden"
     category: '@category_chien'
     lifeExpectancy: 10
-  
+  animal_dog_{1..10}:
+    name: "animal_dog_<current()>"
+    description: "description dog_<current()>"
+    category: '@category_chien'
+    lifeExpectancy: <numberBetween(5, 15)>

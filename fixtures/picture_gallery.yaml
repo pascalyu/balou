@@ -1,31 +1,36 @@
 App\Entity\PictureGallery:
   picture_gallery_griffon:
     animal: "@animal_griffon"
-    file_path: 623358c134561161086751.jpeg
+    file_path: animal_griffon.jpeg
     is_main: 0
-    name: 623358c134561161086751.jpeg
+    name: animal_griffon.jpeg
 
   picture_gallery_rotweiller:
     animal: "@animal_rotweiller"
-    file_path: 623358d246e1a260243991.webp
+    file_path: animal_rotweiller.webp
     is_main: 0
-    name: 623358d246e1a260243991.webp
+    name: animal_rotweiller.webp
 
   picture_gallery_yorkshirk:
     animal: "@animal_yorkshirk"
-    file_path: 623358eaf2bb9828447756.jpeg
+    file_path: animal_yorkshirk.jpeg
     is_main: 0
-    name: 623358eaf2bb9828447756.jpeg
+    name: animal_yorkshirk.jpeg
 
   picture_gallery_bulldog:
     animal: "@animal_bulldog"
-    file_path: 623358af74a50871031848.jpeg
+    file_path: animal_bulldog.jpeg
     is_main: 0
-    name: 623358af74a50871031848.jpeg
+    name: animal_bulldog.jpeg
 
   picture_gallery_golden_retreiver:
     animal: "@animal_golden_retreiver"
-    file_path: 6238aba18bcd7309786302.jpeg
+    file_path: animal_golden_retreiver.jpeg
     is_main: 0
-    name: 6238aba18bcd7309786302.jpeg
-   
+    name: animal_golden_retreiver.jpeg
+
+  picture_gallery_animal_dog_{1..10}:
+    animal: "@animal_dog_<current()>"
+    file_path: animal_griffon.jpeg
+    is_main: 1
+    name: animal_griffon.jpeg
