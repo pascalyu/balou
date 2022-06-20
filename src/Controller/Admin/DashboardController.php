@@ -8,6 +8,9 @@ use App\Entity\Payment;
 use App\Entity\PictureGallery;
 use App\Entity\Security\Administrator;
 use App\Entity\Security\User;
+use App\Repository\PaymentRepository;
+use App\Service\PaymentService;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -16,11 +19,31 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
+
+    private PaymentService $paymentService;
+
+    public function __construct(PaymentService $paymentService)
+    {
+        $this->paymentService = $paymentService;
+    }
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        return $this->render('@EasyAdmin/page/content.html.twig');
-        return parent::index();
+
+
+        return $this->render('@EasyAdmin/page/content.html.twig', ['totalDonation' =>
+        $this->paymentService->getTotalDonation()]);
+    }
+
+
+    public function configureCrud(): Crud
+    {
+        return Crud::new()
+            // ...
+
+            // the first argument is the "template name", which is the same as the
+            // Twig path but without the `@EasyAdmin/` prefix
+            ->overrideTemplate('layout', '/bundles/EasyAdmin/page/content.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -38,6 +61,5 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
         yield MenuItem::linkToCrud('Admin', 'fas fa-list', Administrator::class);
         yield MenuItem::linkToCrud('Payment', 'fas fa-list', Payment::class);
-
     }
 }
