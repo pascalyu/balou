@@ -37,10 +37,10 @@ class PaymentSubscriber implements EventSubscriberInterface
 
     public function onCreatePayment(ViewEvent $event)
     {
-        $payment = $event->getControllerResult();
         if (!$this->supports($event, Payment::class, 'api_payments_post_collection')) {
             return;
         }
+        $payment = $event->getControllerResult();
         /** @var Payment $payment */
         $payment->setPayedBy($this->security->getUser());
         $payment->setType(Payment::DONATION_TYPE);
@@ -51,10 +51,10 @@ class PaymentSubscriber implements EventSubscriberInterface
 
     public function setStripeUrl(ViewEvent $event)
     {
-        $payment = $event->getControllerResult();
         if (!$this->supports($event, Payment::class, 'api_payments_post_collection')) {
             return;
         }
+        $payment = $event->getControllerResult();
         /** @var Payment $payment */
         $payment->setLocationUrl($this->stripeManager->createCheckoutSession($payment->getPrice(), $payment->getId())->url);
     }
