@@ -11,7 +11,7 @@ class StripeManager extends StripeClient
         return $this->getStripeClient()->balance->retrieve();
     }
 
-    public function createCheckoutSession()
+    public function createCheckoutSession(int $amount, string $id)
     {
         $session = $this->getStripeClient()->checkout->sessions->create([
             'line_items' => [[
@@ -20,12 +20,12 @@ class StripeManager extends StripeClient
                     'product_data' => [
                         'name' => 'Donation for Balou',
                     ],
-                    'unit_amount' => 100,
+                    'unit_amount' => $amount,
                 ],
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => 'http://localhost:3000/thanks',
+            'success_url' => 'http://localhost:3000/donation_confirm/' . $id,
             'cancel_url' => 'http://localhost:3000/',
         ]);
 

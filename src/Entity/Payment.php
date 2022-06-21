@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\Action\ConfirmPaymentAction;
 use App\Entity\Security\User;
 use App\Entity\Traits\TimestampableEntity;
 use App\Repository\PaymentRepository;
@@ -10,8 +11,18 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 #[ApiResource(
+    itemOperations: [
+        "get",
+        "confirm_payment" => [
+            "path" => "/payments/{id}/confirm",
+            "method" => "POST",
+            "controller" => ConfirmPaymentAction::class,
+        ]
+    ],
+
     collectionOperations: [
-        "post"
+        "post",
+
     ]
 )]
 class Payment
@@ -29,7 +40,6 @@ class Payment
 
     public const  TRANSITION_CONFIRM_PAYMENT = "confirm_payment";
     public const  TRANSITION_PROPOSE_PAYMENT = "propose_payment";
-    public const  TRANSITION_PROCESS_PAYMENT = "process_payment";
     public const  TRANSITION_COMPLETE_PAYMENT = "complete_payment";
     public const  TRANSITION_PAYOUT = "payout";
     public const  TRANSITION_DECLINE_PAYMENT = "decline_payment";

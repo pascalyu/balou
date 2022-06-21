@@ -8,8 +8,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 trait Supports
 {
-    public function supports($entity, $class): bool
+    public function supports($event, $class, $route): bool
     {
-        return $entity instanceof $class;
+        $object = $event->getControllerResult();
+        
+        return $object instanceof $class && $route == $event->getRequest()->get('_route');
     }
 }
