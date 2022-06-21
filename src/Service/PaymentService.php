@@ -14,6 +14,7 @@ class PaymentService
         $this->paymentRepository = $paymentRepository;
     }
 
+
     public function getTotalDonation(): int
     {
         $result = 0;
@@ -22,5 +23,19 @@ class PaymentService
             $result += $payment->getPrice();
         }
         return $result;
+    }
+
+    public function getTotalDonationReadable(): float
+    {
+        return $this->convertIntToFloatPrice($this->getTotalDonation());
+    }
+    public function convertFloatToIntPrice(float $amount): int
+    {
+        return $amount * 100;
+    }
+
+    public function convertIntToFloatPrice(int $amount): float
+    {
+        return $amount / 100;
     }
 }

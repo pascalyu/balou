@@ -1,10 +1,10 @@
 framework:
     workflows:
         payment:
-            type: 'state_machine'
+            type: "state_machine"
             marking_store:
-                type: 'method'
-                property: 'status'
+                type: "method"
+                property: "status"
             audit_trail:
                 enabled: true
             supports:
@@ -27,17 +27,14 @@ framework:
                 propose_payment:
                     from: created
                     to: waiting_for_payment_proposed
-                process_payment:
-                    from: [waiting_for_payment,waiting_for_payment_proposed]
-                    to: payment_processing
                 complete_payment:
-                    from: [waiting_for_payment, payment_declined, waiting_for_payment_proposed]
+                    from: [waiting_for_payment, waiting_for_payment_proposed]
                     to: payment_completed
                 payout:
                     from: payment_completed
                     to: payout_completed
                 decline_payment:
-                    from: [waiting_for_payment,waiting_for_payment_proposed]
+                    from: [waiting_for_payment, waiting_for_payment_proposed]
                     to: payment_declined
                 cancel_order:
                     from: [created, waiting_for_payment, payment_declined]
@@ -45,4 +42,3 @@ framework:
                 refund_payment:
                     from: payment_completed
                     to: refunded
-        

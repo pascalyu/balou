@@ -29,21 +29,8 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-
-
-        return $this->render('@EasyAdmin/page/content.html.twig', ['totalDonation' =>
-        $this->paymentService->getTotalDonation()]);
-    }
-
-
-    public function configureCrud(): Crud
-    {
-        return Crud::new()
-            // ...
-
-            // the first argument is the "template name", which is the same as the
-            // Twig path but without the `@EasyAdmin/` prefix
-            ->overrideTemplate('layout', '/bundles/EasyAdmin/page/content.html.twig');
+        return $this->render('/bundles/EasyAdmin/page/content.html.twig', ['totalDonation' =>
+        $this->paymentService->getTotalDonationReadable()]);
     }
 
     public function configureDashboard(): Dashboard
