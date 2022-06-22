@@ -30,7 +30,7 @@ class CategorySubscriber implements EventSubscriberInterface
     public function preSoftDelete(LifecycleEventArgs $event)
     {
         $entity = $event->getObject();
-        if (!$this->supports($entity, Category::class)) {
+        if (!($entity instanceof Category)) {
             return;
         }
         $entity->removeAnimals();

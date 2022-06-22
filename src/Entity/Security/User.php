@@ -29,15 +29,17 @@ use Doctrine\Common\Collections\Collection;
         [
             "path" => "/me",
             "method" => "GET",
-            "controller" => OwnUserInformation::class
+            "controller" => OwnUserInformation::class,
+            "normalization_context" => ["groups" => ["owner_data"]],
         ]
+
     ]
 )]
 
 
 class User extends AbstractUser
 {
-    
+
     #[ORM\OneToMany(mappedBy: 'payedBy', targetEntity: Payment::class)]
     private $payments;
 

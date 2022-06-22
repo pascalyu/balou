@@ -20,7 +20,7 @@ class PaymentTest extends AbstractTest
         $response = $client->request(Request::METHOD_POST, self::URL, ['json' => $data]);
         $responseData = $this->getData($response);
 
-        $this->assertEquals(Payment::STATUS_CREATED, $responseData['status']);
+        $this->assertEquals(Payment::STATUS_WAITING_FOR_PAYMENT, $responseData['status']);
         $this->assertEquals(Payment::DONATION_TYPE, $responseData['type']);
         $this->assertNotNull($responseData['locationUrl']);
     }
