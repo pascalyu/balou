@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksPassword;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\MappedSuperclass]
 #[ApiResource()]
@@ -34,6 +34,7 @@ class AbstractUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\Email(groups: ['create_user'])]
     #[Assert\NotBlank(groups: ['create_user'])]
+    #[Groups('owner_data')]
     private $email;
 
     #[ORM\Column(type: 'json')]

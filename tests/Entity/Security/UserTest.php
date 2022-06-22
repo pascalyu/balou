@@ -61,6 +61,8 @@ class UserTest extends AbstractTest
         $client = self::createPrivateClient();
         $response = $client->request(Request::METHOD_GET, self::API . "/me");
         $this->assertNotTrue($this->getData($response) === null);
+
+        $this->assertArrayNotHasKey("password", $this->getData($response));
     }
 
     public function testMeNoToken()
