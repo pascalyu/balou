@@ -43,6 +43,12 @@ class User extends AbstractUser
     #[ORM\OneToMany(mappedBy: 'payedBy', targetEntity: Payment::class)]
     private $payments;
 
+    #[ORM\Column(type: 'boolean')]
+    private $isEnabled = false;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
@@ -73,6 +79,30 @@ class User extends AbstractUser
                 $payment->setPayedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsEnabled(): ?bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(bool $isEnabled): self
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    public function getIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

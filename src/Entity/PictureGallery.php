@@ -147,6 +147,11 @@ class PictureGallery
         return $this->isMain;
     }
 
+    public function isMain(): ?bool
+    {
+        return $this->getIsMain();
+    }
+
     public function setIsMain(bool $isMain): self
     {
         $this->isMain = $isMain;

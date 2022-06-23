@@ -43,6 +43,7 @@ class Animal
     private $description;
 
     #[ORM\OneToMany(mappedBy: 'animal', targetEntity: PictureGallery::class)]
+    #[Groups(['animal:read'])]
     private $picturegalleries;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'animals')]
@@ -113,6 +114,13 @@ class Animal
     public function getFirstPicture(): ?PictureGallery
     {
         if (count($this->picturegalleries) > 0) {
+            foreach ($this->picturegalleries as $picture) {
+
+                if ($picture->isMain()) {
+
+                    return $picture;
+                }
+            }
             return $this->picturegalleries->first();
         }
         return null;

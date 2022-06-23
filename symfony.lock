@@ -115,6 +115,15 @@
     "gedmo/doctrine-extensions": {
         "version": "v3.5.0"
     },
+    "guzzlehttp/guzzle": {
+        "version": "7.4.5"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.5.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "2.4.0"
+    },
     "hautelook/alice-bundle": {
         "version": "2.10",
         "recipe": {
@@ -244,11 +253,23 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/link": {
         "version": "2.0.1"
     },
     "psr/log": {
         "version": "3.0.0"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "rollerworks/password-strength-bundle": {
         "version": "v2.2.3"
@@ -303,6 +324,9 @@
     },
     "sebastian/version": {
         "version": "3.0.2"
+    },
+    "sendinblue/api-v3-sdk": {
+        "version": "v8.3.0"
     },
     "stof/doctrine-extensions-bundle": {
         "version": "1.7",
@@ -626,6 +650,9 @@
     },
     "symfony/yaml": {
         "version": "v6.0.3"
+    },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.10.0"
     },
     "theofidry/alice-data-fixtures": {
         "version": "1.5",

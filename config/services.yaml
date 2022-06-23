@@ -48,5 +48,16 @@ services:
         autowire: true
         autoconfigure: false
 
+    # SendinBlue
+    App\Sendinblue\SendinblueClient:
+        abstract: true
+        arguments: ["%env(SENDIN_BLUE_API_KEY)%"]
+
+    App\Sendinblue\SendinblueManager:
+        parent: App\Sendinblue\SendinblueClient
+        public: true
+        autowire: true
+        autoconfigure: false
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

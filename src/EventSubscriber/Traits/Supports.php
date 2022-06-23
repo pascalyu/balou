@@ -11,7 +11,6 @@ trait Supports
     public function supports($event, $class, $route): bool
     {
         $object = $event->getControllerResult();
-        
         return $object instanceof $class && $route == $event->getRequest()->get('_route');
     }
 }
