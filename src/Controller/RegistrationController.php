@@ -46,7 +46,8 @@ class RegistrationController extends AbstractController
             $em->flush();
         } catch (VerifyEmailExceptionInterface $e) {
             dump($e);
+            //todo handle exceltion
         }
-        return new Response();
+        return $this->redirect('http://localhost:3000/login');
     }
 }

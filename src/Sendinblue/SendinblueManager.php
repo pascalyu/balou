@@ -7,7 +7,8 @@ use SendinBlue\Client\Model\SendSmtpEmailTo;
 
 class SendinblueManager extends SendinblueClient
 {
-    public const TEST = 2;
+    public const MAIL_CONFIRMATION = 2;
+    
     public function test()
     {
         $recipient = (new SendSmtpEmailTo())

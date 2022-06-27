@@ -33,12 +33,24 @@ class UserSubscriber implements EventSubscriberInterface
     {
         return [
             KernelEvents::VIEW => [
-                ['onUserCreation', EventPriorities::POST_WRITE],
+                ['sendMailPostWrite', EventPriorities::POST_WRITE],
+                ['onUserCreation', EventPriorities::PRE_WRITE],
             ]
         ];
     }
-
     public function onUserCreation(ViewEvent $event)
+    {
+        if (!$this->supports($event, User::class, 'api_users_post_collection')) {
+            return;
+        }
+        /** @var User $user */
+        $user = $event->getControllerResult();
+        if ($user->getWantToBePetsitter()) {
+            $user->setRoles(['ROLE_PETSITTER']);
+        }
+    }
+    
+    public function sendMailPostWrite(ViewEvent $event)
     {
         if (!$this->supports($event, User::class, 'api_users_post_collection')) {
             return;
@@ -51,12 +63,17 @@ class UserSubscriber implements EventSubscriberInterface
             ['id' => $user->getId()]
         );
 
-
         $recipient = (new SendSmtpEmailTo())
-            ->setName("test")
+            ->setName($user->getEmail())
             ->setEmail($user->getEmail());
-        $this->sendinblueManager->sendFromTemplate($recipient, SendinblueManager::TEST, [
+        $this->sendinblueManager->sendFromTemplate($recipient, SendinblueManager::MAIL_CONFIRMATION, [
             'link' => $signatureComponents->getSignedUrl(),
         ]);
+    }
+
+    private function sendConfirmationMail()
+    {
+        //todo factoriser
+
     }
 }
