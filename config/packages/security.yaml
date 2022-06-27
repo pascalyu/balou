@@ -34,7 +34,7 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             jwt: ~
-            
+
         admin:
             pattern: /admin
             provider: app_admin_provider
@@ -52,8 +52,11 @@ security:
         - { path: ~/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: "^/admin$", roles: "ROLE_ADMIN" }
         - { path: "^/admin/login/$", roles: "IS_AUTHENTICATED_ANONYMOUSLY" }
-        - { path: ~/api/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - {
+              path: ~/api/authentication_token,
+              roles: IS_AUTHENTICATED_ANONYMOUSLY,
+          }
 
-        
     role_hierarchy:
-        ROLE_ADMIN: ["ROLE_USER"]
+        ROLE_ADMIN: ["ROLE_PETSITTER", "ROLE_USER"]
+        ROLE_PETSITTER: ["ROLE_USER"]

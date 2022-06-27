@@ -4,6 +4,7 @@ namespace App\Entity\Security;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\User\OwnUserInformation;
+use App\Entity\Security\PersonalInformation;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Payment;
@@ -23,7 +24,8 @@ use Doctrine\Common\Collections\Collection;
     ],
     collectionOperations: [
         "post" => [
-            'validation_groups' => ['create_user']
+            'validation_groups' => ['create_user'],
+            "normalization_context" => ["groups" => ["owner_data"]],
         ],
         "get_me" =>
         [
@@ -48,6 +50,14 @@ class User extends AbstractUser
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: PersonalInformation::class, cascade: ['persist', 'remove'])]
+    private $personalInformation;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isAvailable = false;
+
+    private $wantToBePetsitter = false;
 
     public function __construct()
     {
@@ -104,6 +114,51 @@ class User extends AbstractUser
     {
         $this->isVerified = $isVerified;
 
+        return $this;
+    }
+
+    public function getPersonalInformation(): ?PersonalInformation
+    {
+        return $this->personalInformation;
+    }
+
+    public function setPersonalInformation(?PersonalInformation $personalInformation): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($personalInformation === null && $this->personalInformation !== null) {
+            $this->personalInformation->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($personalInformation !== null && $personalInformation->getUser() !== $this) {
+            $personalInformation->setUser($this);
+        }
+
+        $this->personalInformation = $personalInformation;
+
+        return $this;
+    }
+
+    public function getIsAvailable(): ?bool
+    {
+        return $this->isAvailable;
+    }
+
+    public function setIsAvailable(bool $isAvailable): self
+    {
+        $this->isAvailable = $isAvailable;
+
+        return $this;
+    }
+
+    public function getWantToBePetsitter(): bool
+    {
+        return $this->wantToBePetsitter;
+    }
+
+    public function setWantToBePetsitter($wantToBePetsitter): self
+    {
+        $this->wantToBePetsitter = $wantToBePetsitter;
         return $this;
     }
 }

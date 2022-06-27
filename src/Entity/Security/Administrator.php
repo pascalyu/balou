@@ -13,8 +13,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ApiResource()]
 class Administrator extends AbstractUser
 {
-
-
     public function __construct()
     {
         $this->setRoles(['ROLE_ADMIN']);
