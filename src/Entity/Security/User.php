@@ -10,10 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Payment;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation as API;
+use Symfony\Component\Serializer\Annotation as Serializer;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
+    
     itemOperations: [
 
         "get" =>
@@ -26,6 +32,7 @@ use Doctrine\Common\Collections\Collection;
         "post" => [
             'validation_groups' => ['create_user'],
             "normalization_context" => ["groups" => ["owner_data"]],
+            "denormalization_context"=> ["groups" => ["create_user"]],
         ],
         "get_me" =>
         [
@@ -51,12 +58,17 @@ class User extends AbstractUser
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\OneToOne(mappedBy: 'user', targetEntity: PersonalInformation::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: PersonalInformation::class, cascade: ['all'])]
+    #[Assert\NotBlank(groups: ['create_user'])]
+    #[Assert\Valid(groups: ['create_user'])]
+    #[API\ApiSubresource(maxDepth: 1)]
+    #[Groups('create_user')]
     private $personalInformation;
 
     #[ORM\Column(type: 'boolean')]
     private $isAvailable = false;
 
+    #[Groups('create_user')]
     private $wantToBePetsitter = false;
 
     public function __construct()
@@ -124,10 +136,7 @@ class User extends AbstractUser
 
     public function setPersonalInformation(?PersonalInformation $personalInformation): self
     {
-        // unset the owning side of the relation if necessary
-        if ($personalInformation === null && $this->personalInformation !== null) {
-            $this->personalInformation->setUser(null);
-        }
+
 
         // set the owning side of the relation if necessary
         if ($personalInformation !== null && $personalInformation->getUser() !== $this) {

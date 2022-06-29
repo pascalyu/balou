@@ -18,7 +18,8 @@ class UserTest extends AbstractTest
         $email = "Test2@yopamil.com";
         $data = [
             "email" => $email,
-            "plainPassword" => $email
+            "plainPassword" => $email,
+            "personalInformation" => []
         ];
         $response = $client->request(Request::METHOD_POST, self::URL, ['json' => $data]);
         $responseData = $this->getData($response);
@@ -37,7 +38,8 @@ class UserTest extends AbstractTest
         $password = "Test2@yopamil.com";
         $data = [
             "email" => "",
-            "plainPassword" => $password
+            "plainPassword" => $password,
+            "personalInformation" => []
         ];
         $client->request(Request::METHOD_POST, self::URL, ['json' => $data]);
         $this->assertViolation("email", "This value should not be blank.");
@@ -49,7 +51,8 @@ class UserTest extends AbstractTest
         $password = "Test2@yopamil.com";
         $data = [
             "email" => "qsdqsd",
-            "plainPassword" => $password
+            "plainPassword" => $password,
+            "personalInformation" => []
         ];
         $client->request(Request::METHOD_POST, self::URL, ['json' => $data]);
         $this->assertViolation("email", "This value is not a valid email address.");

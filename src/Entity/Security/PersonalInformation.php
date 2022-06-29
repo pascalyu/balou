@@ -6,14 +6,22 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Security\User;
 use App\Repository\PersonalInformationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation as API;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonalInformationRepository::class)]
 #[ApiResource(
-    itemOperations: [],
+    itemOperations: [
+        "get",
+        "patch" => [
+            'method' => 'PATCH',
+            "security" => "is_granted('IS_AUTHENTICATED_FULLY') and (object.uset == user) ",
+        ],
+    ],
     collectionOperations: [
-        "path" => [
-            'validation_groups' => ['create_user'],
-            "normalization_context" => ["groups" => ["owner_data"]],
+        "post" => [
+            'method' => 'POST',
+            "security" => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
     ]
 )]
@@ -28,9 +36,11 @@ class PersonalInformation
     private $phoneNumber;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups('create_user')]
     private $streetName;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups('create_user')]
     private $zipCode;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -41,8 +51,9 @@ class PersonalInformation
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $presentation;
+    
 
-    #[ORM\OneToOne(inversedBy: 'personalInformation', targetEntity: User::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'personalInformation', targetEntity: User::class, cascade: ['all'])]
     private $user;
 
     public function getId(): ?int
@@ -129,8 +140,13 @@ class PersonalInformation
 
     public function setUser(?User $user): self
     {
-        $this->user = $user;
 
+
+        $this->user = $user;
+        if ($user->getPersonalInformation() !== $this) {
+             $user->setPersonalInformation($this);
+         }
+ 
         return $this;
     }
 }
