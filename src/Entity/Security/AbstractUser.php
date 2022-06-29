@@ -3,11 +3,7 @@
 namespace App\Entity\Security;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\Payment;
 use App\Entity\Traits\TimestampableEntity;
-use App\Repository\AdministratorRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,7 +30,7 @@ class AbstractUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\Email(groups: ['create_user'])]
     #[Assert\NotBlank(groups: ['create_user'])]
-    #[Groups('owner_data')]
+    #[Groups(['owner_data', "create_user"])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -44,7 +40,6 @@ class AbstractUser implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
 
-    #[Assert\NotBlank(groups: ['create_user'])]
     /**
      * @RollerworksPassword\PasswordRequirements(
      *     groups={"create_user"},
@@ -55,6 +50,8 @@ class AbstractUser implements UserInterface, PasswordAuthenticatedUserInterface
      * )
      * 
      * */
+    #[Assert\NotBlank(groups: ['create_user','owner_data'])]
+    #[Groups(['owner_data', "create_user"])]
     private $plainPassword;
 
     public function getEmail(): ?string
